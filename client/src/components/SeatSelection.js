@@ -31,7 +31,7 @@ const SeatSelection = () => {
   const fetchSeats = useCallback(async (flightNumber) => {
     setIsLoading(true);
     try {
-      const response = await axios.get('https://airlines-server.onrender.com/api/flights/${flightNumber}/seats`);
+      const response = await axios.get(`https://airlines-server.onrender.com/api/flights/${flightNumber}/seats`);
       console.log('Fetched seats:', response.data);
       setSeats(response.data);
       setIsLoading(false);
