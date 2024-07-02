@@ -1,0 +1,66 @@
+/* Reset default margin and padding */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.flight-results-container {
+  background-image: url('../assets/signup.jpg'); /* Add your background image */
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.flight-results {
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* Transparent black */
+  color: white; /* Ensure text is readable on dark background */
+}
+
+.flight-route-header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px; /* Increased font size */
+  font-weight: bold;
+  color: #ffffff; /* Explicit white color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Darker shadow for better contrast */
+}
+
+.flight-card {
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+
+.flight-card h3 {
+  margin-top: 0;
+  color: #ffffff; /* Ensure white color for flight number */
+}
+
+.flight-card p {
+  margin: 5px 0;
+  color: #ffffff; /* Ensure white color for flight details */
+}
+
+.flight-card button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.flight-card button:hover {
+  background-color: #0056b3;
+}

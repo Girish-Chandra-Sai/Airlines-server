@@ -1,0 +1,110 @@
+.seat-selection-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.user-info {
+  text-align: right;
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #666;
+}
+
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.seat {
+  padding: 15px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.seat:not(.booked):not(.selected) {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.seat.booked {
+  background-color: #f44336;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.seat.selected {
+  background-color: #2196F3;
+  color: white;
+  transform: scale(1.05);
+}
+
+.seat:hover:not(.booked) {
+  opacity: 0.8;
+}
+
+.booking-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.booking-controls p {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.booking-controls button {
+  padding: 10px 20px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.booking-controls button:hover {
+  background-color: #1976D2;
+}
+
+.error-message {
+  color: #f44336;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.error-message button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2em;
+  color: #666;
+  margin-top: 50px;
+}
+
+p{
+  color: white;
+}

@@ -1,0 +1,20 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .main-container {
+    min-height: 100vh;
+    background-image: url('../assets/signup.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  .content {
+    padding: 2rem;
+    color: white;
+  }
+  
+  /* Add any other styles for your main pages here */

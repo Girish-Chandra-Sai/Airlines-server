@@ -1,0 +1,47 @@
+.profile-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .error, .loading {
+    color: red;
+  }
+  
+  .button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff; /* Change to your preferred background color */
+    color: white; /* White text color */
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .bookings-container {
+    margin-top: 20px;
+  }
+  
+  .bookings-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .booking-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 10px); /* Adjust the percentage to control the number of boxes per row */
+    box-sizing: border-box;
+    max-width: calc(33.333% - 10px);
+  }
+  
+  .booking-box p {
+    margin: 5px 0;
+  }
+h2{
+    color:green;
+}  
