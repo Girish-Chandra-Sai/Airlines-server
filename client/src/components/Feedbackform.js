@@ -12,7 +12,7 @@ const FeedbackForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/feedback/submit', {
+      await axios.post('https://airlines-server.onrender.com/api/feedback/submit', {
         flightNumber,
         rating,
         review,
