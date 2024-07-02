@@ -18,7 +18,7 @@ const SeatSelection = () => {
   const fetchUserProfile = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`https://airlines-server.onrender.com/api/flights/${flightNumber}/seats`, {
+      const response = await axios.get(`https://airlines-server.onrender.com/api/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUserProfile(response.data);
