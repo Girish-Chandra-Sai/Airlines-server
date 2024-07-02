@@ -52,7 +52,7 @@ const Home = () => {
   const handleFlightSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get('/api/flights`, {
+      const response = await axios.get('/api/flights', {
         params: { fromCity, toCity, travelDate }
       });
       console.log('Flight data:', response.data);
