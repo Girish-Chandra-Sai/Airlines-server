@@ -3,7 +3,7 @@ import axios from 'axios';
 // Function to handle user login
 export const loginUser = async (formData) => {
   try {
-    const response = await axios.post('http://localhost:5000/api/airlineUser/login', formData);
+    const response = await axios.post('https://airlines-server.onrender.com/api/airlineUser/login', formData);
     console.log('Login service response:', response.data);
     return response.data;
   } catch (error) {
@@ -15,7 +15,7 @@ export const loginUser = async (formData) => {
 // Function to handle user registration
 export const register = async (formData) => {
   try {
-    const response = await axios.post('http://localhost:5000/api/airlineUser/register', formData);
+    const response = await axios.post('https://airlines-server.onrender.com/api/airlineUser/register', formData);
     return response.data;
   } catch (error) {
     throw error;
@@ -28,7 +28,7 @@ export const checkLoginStatus = async () => {
     const token = localStorage.getItem('token');
     if (!token) return false;
 
-    const response = await axios.get('http://localhost:5000/api/airlineUser/check-auth', {
+    const response = await axios.get('https://airlines-server.onrender.com/api/airlineUser/check-auth', {
       headers: { Authorization: `Bearer ${token}` }
     });
     return response.data.isLoggedIn;
