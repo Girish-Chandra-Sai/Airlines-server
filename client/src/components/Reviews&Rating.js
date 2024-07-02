@@ -14,7 +14,7 @@ const ReviewsAndRatings = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/feedback');
+      const response = await axios.get('https://airlines-server.onrender.com/api/feedback');
       setFeedbacks(response.data.feedbacks);
       setOverallRating(response.data.overallStats.overallRating);
       setTotalReviews(response.data.overallStats.totalReviews);
