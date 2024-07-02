@@ -12,7 +12,7 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('/api/profile', {
+        const response = await axios.get('https://airlines-server.onrender.com/api/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProfile(response.data);
@@ -31,7 +31,7 @@ function Profile() {
     } else {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('/api/profile/bookings', {
+        const response = await axios.get('https://airlines-server.onrender.com/api/profile/bookings', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setBookings(response.data);
