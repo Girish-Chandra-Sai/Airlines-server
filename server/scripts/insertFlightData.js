@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Flight = require('../models/Flight');
 
-mongoose.connect('mongodb://localhost:27017/airLines', {
+mongoose.connect('mongodb+srv://mannavagirishchandrasai:sivaraogirish@cluster0.gvendw4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/airLines', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
