@@ -5,34 +5,48 @@ const feedbackRoutes = require('./routes/feedback');
 const flights = require('./routes/flights');
 const bookingRoutes = require('./routes/bookingRoutes');
 const userRoutes = require('./routes/userRoutes');
-const profileROutes=require('./routes/profile.js');
+const profileRoutes = require('./routes/profile.js');
 const nodemailer = require('nodemailer');
 const schedule = require('node-schedule');
-
 require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
+/* ✅ FIXED: CORS configuration for Render */
+const allowedOrigins = [
+  "https://skypath-airlines.onrender.com", // your frontend Render URL
+  "http://localhost:3000"                  // for local development
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use('/api/feedback', feedbackRoutes);
 
-
+/* ✅ MongoDB connection */
 const MONGO_URI = process.env.MONGO_URI;
-require('dotenv').config();
-
 const JWT_SECRET = process.env.JWT_SECRET;
+
 if (!JWT_SECRET) {
   console.error('FATAL ERROR: JWT_SECRET is not defined.');
   process.exit(1);
 }
 
-mongoose.connect(MONGO_URI).then(() => {
-    console.log("Connected to MongoDB");
-}).catch((err) => {
-    console.error("Error connecting to MongoDB", err);
-});
+mongoose.connect(MONGO_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Error connecting to MongoDB", err));
 
+/* ✅ Email setup */
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -41,6 +55,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+/* ✅ Flight reminder email */
 app.post('/api/schedule-reminder', async (req, res) => {
   const { email, flight, seat, fromCity, toCity } = req.body;
   const reminderDate = new Date(flight.date);
@@ -75,6 +90,7 @@ app.post('/api/schedule-reminder', async (req, res) => {
   res.status(200).json({ message: 'Reminder scheduled successfully' });
 });
 
+/* ✅ Booking confirmation & reminder email */
 app.post('/api/send-email', async (req, res) => {
   const { email, flight, seat, fromCity, toCity, reminderType } = req.body;
 
@@ -108,21 +124,24 @@ app.post('/api/send-email', async (req, res) => {
   }
 });
 
+/* ✅ Middleware & Routes */
 app.use((req, res, next) => {
   console.log(`Received ${req.method} request to ${req.url}`);
   next();
 });
 
-app.use('/api/profile',profileROutes);
+app.use('/api/profile', profileRoutes);
 app.use('/api/flights', flights);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/airlineUser", require("./routes/airuser.js"));
+
+/* ✅ Error handler */
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ error: 'Something broke!', details: err.message });
 });
 
-
+/* ✅ Start Server */
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
