@@ -18,7 +18,7 @@ const SeatSelection = () => {
   const fetchUserProfile = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`https://airlines-server.onrender.com/api/profile`, {
+      const response = await axios.get(`https://airlines-server-ux71.onrender.com/api/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUserProfile(response.data);
@@ -31,7 +31,7 @@ const SeatSelection = () => {
   const fetchSeats = useCallback(async (flightNumber) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`https://airlines-server.onrender.com/api/flights/${flightNumber}/seats`);
+      const response = await axios.get(`https://airlines-server-ux71.onrender.com/api/flights/${flightNumber}/seats`);
       console.log('Fetched seats:', response.data);
       setSeats(response.data);
       setIsLoading(false);
@@ -61,7 +61,7 @@ const SeatSelection = () => {
   const handleConfirmSeat = async () => {
     if (selectedSeat && userProfile) {
       try {
-        const response = await axios.post('https://airlines-server.onrender.com/api/bookings', {
+        const response = await axios.post('https://airlines-server-ux71.onrender.com/api/bookings', {
           flightNumber: flight.flightNumber,
           seatNumber: selectedSeat.seatNumber,
           email: userProfile.email

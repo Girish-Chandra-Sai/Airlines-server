@@ -1,7 +1,7 @@
 // services/flightService.js
 import axios from 'axios';
 
-const API_URL = 'https://airlines-server.onrender.com/api/flights';
+const API_URL = 'https://airlines-server-ux71.onrender.com/api/flights';
 
 export const getFlights = async () => {
   const response = await axios.get(API_URL);
