@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Flight = require('../models/Flight');
-const User = require('../models/Users');
+const User = require('../models/User');
 
 router.post('/', async (req, res) => {
   try {

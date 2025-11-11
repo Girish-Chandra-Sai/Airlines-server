@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/Users'); // make sure this file exists and path is correct
+const User = require('../models/User'); // make sure this file exists and path is correct
 require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
