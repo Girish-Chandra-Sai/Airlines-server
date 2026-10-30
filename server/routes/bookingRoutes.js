@@ -8,39 +8,53 @@ router.post('/', async (req, res) => {
   try {
     const { flightNumber, seatNumber, email } = req.body;
 
-    // Find the flight
-    const flight = await Flight.findOne({ flightNumber });
-    if (!flight) {
-      return res.status(404).json({ success: false, message: 'Flight not found' });
-    }
-
-    // Find the seat
-    const seat = flight.seats.find(s => s.seatNumber === seatNumber);
-    if (!seat) {
-      return res.status(404).json({ success: false, message: 'Seat not found' });
-    }
-    if (seat.isBooked) {
-      return res.status(400).json({ success: false, message: 'Seat is already booked' });
-    }
-
-    // Find the user by email
+    // Find the user by email first, so a missing user never leaves a seat reserved
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Book the seat
-    seat.isBooked = true;
-    seat.userId = user._id; // Use userId instead of bookedBy
-    await flight.save();
+    // Book the seat atomically: the "is it free?" check and the write happen in one
+    // MongoDB operation, so two simultaneous requests can't both book the same seat
+    const flight = await Flight.findOneAndUpdate(
+      { flightNumber, seats: { $elemMatch: { seatNumber, isBooked: false } } },
+      { $set: { 'seats.$.isBooked': true, 'seats.$.userId': user._id } },
+      { new: true }
+    );
 
-    // Update user's bookings
-    user.bookings.push({
-      flightNumber: flight.flightNumber,
-      seatNumber: seatNumber,
-      bookingDate: new Date()
-    });
-    await user.save();
+    if (!flight) {
+      // Nothing matched: work out why, to return the right error
+      const existing = await Flight.findOne({ flightNumber });
+      if (!existing) {
+        return res.status(404).json({ success: false, message: 'Flight not found' });
+      }
+      if (!existing.seats.some(s => s.seatNumber === seatNumber)) {
+        return res.status(404).json({ success: false, message: 'Seat not found' });
+      }
+      return res.status(409).json({ success: false, message: 'Seat is already booked' });
+    }
+
+    // Update user's bookings; if that fails, release the seat we just reserved
+    try {
+      await User.updateOne(
+        { _id: user._id },
+        {
+          $push: {
+            bookings: {
+              flightNumber: flight.flightNumber,
+              seatNumber: seatNumber,
+              bookingDate: new Date()
+            }
+          }
+        }
+      );
+    } catch (error) {
+      await Flight.updateOne(
+        { _id: flight._id, seats: { $elemMatch: { seatNumber, userId: user._id } } },
+        { $set: { 'seats.$.isBooked': false, 'seats.$.userId': null } }
+      );
+      throw error;
+    }
 
     res.json({ 
       success: true, 
