@@ -3,13 +3,15 @@ const express = require('express');
 const router = express.Router();
 const Flight = require('../models/Flight');
 const User = require('../models/User');
+const authMiddleware = require('../middlewares/auth');
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
-    const { flightNumber, seatNumber, email } = req.body;
+    const { flightNumber, seatNumber } = req.body;
 
-    // Find the user by email first, so a missing user never leaves a seat reserved
-    const user = await User.findOne({ email });
+    // Book for the logged-in user from the token, never an email sent in the body.
+    // Look them up first, so a missing user never leaves a seat reserved
+    const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -62,7 +64,7 @@ router.post('/', async (req, res) => {
       booking: { 
         flightNumber, 
         seatNumber, 
-        email,
+        email: user.email,
         userId: user._id
       } 
     });
